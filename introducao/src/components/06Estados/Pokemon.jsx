@@ -4,10 +4,13 @@ const Pokemon = () => {
     let url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     const [contador, setContador] = useState(1)
     function decrementarContador() {
-        setContador(contador - 1)
+        if (contador - 1 > 0) {
+            setContador(contador => contador - 1)
+        }
     }
     return (
         <div>
+            <h3>ID: {contador}</h3>
             <img
                 src={url + contador + ".png"}
                 alt="Pokemon" 

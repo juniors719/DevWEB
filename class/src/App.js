@@ -1,8 +1,9 @@
-import CovidAxios from "./components/12Axios/CovidAxios";
+// import CovidAxios from "./components/12Axios/CovidAxios";
+import PrincipalRedux from "./components/13Redux/PrincipalRedux";
 function App() {
     return (
         <div>
-            <CovidAxios />
+            <PrincipalRedux />
         </div>
     );
 }

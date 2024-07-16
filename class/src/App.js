@@ -1,9 +1,8 @@
-// import CovidAxios from "./components/12Axios/CovidAxios";
-import PrincipalRedux from "./components/13Redux/PrincipalRedux";
+import SaveLoadData from "./components/14LocalSessionStorage/SaveLoadData";
 function App() {
     return (
         <div>
-            <PrincipalRedux />
+            <SaveLoadData />
         </div>
     );
 }

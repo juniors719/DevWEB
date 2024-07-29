@@ -1,8 +1,9 @@
-import SaveLoadData from "./components/14LocalSessionStorage/SaveLoadData";
+import Main from "./components/17CRUD/main";
+
 function App() {
     return (
         <div>
-            <SaveLoadData />
+            <Main />
         </div>
     );
 }

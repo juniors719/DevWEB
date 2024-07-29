@@ -30,29 +30,17 @@ article:nth-of-type(3) {
     flex: 2;
 }
 
-article > div#container{
+#button-container > div{
     display: flex;
     flex-flow: row wrap;
 }
 
-article > div#container > button {
-    flex: 150px;
-    margin: 10px;
-    padding: 10px;
-    font-size: large;
+#button-container > div > button {
+    flex: 1;
+    margin: 5px;
+    font-size: 1.2em;
 }
 
-
-
-/* 
-
-Flexbox
-
-Isso torna o section um flex container, 
-o que significa que seus filhos diretos (os elementos article) 
-se tornam flex items.
-
-*/
 section {
     display: flex;
     /* flex-direction: row;

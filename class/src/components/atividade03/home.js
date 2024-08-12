@@ -12,7 +12,7 @@ const Home = () => {
                         Home
                     </a>
                     <button
-                        className="navbar-toggler"
+                        class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent"
@@ -20,7 +20,7 @@ const Home = () => {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-                        <span className="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                     <div
                         className="collapse navbar-collapse"
@@ -44,7 +44,7 @@ const Home = () => {
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
-                                    Dropdown
+                                    Professor
                                 </a>
                                 <ul className="dropdown-menu">
                                     <li>
@@ -69,6 +69,43 @@ const Home = () => {
                                             to="professor/editar"
                                         >
                                             Editar Professor
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <a
+                                    className="nav-link dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Aluno
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <Link
+                                            className="dropdown-item"
+                                            to="aluno/listar"
+                                        >
+                                            Listar Alunos
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="dropdown-item"
+                                            to="aluno/criar"
+                                        >
+                                            Criar Aluno
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="dropdown-item"
+                                            to="aluno/editar"
+                                        >
+                                            Editar Aluno
                                         </Link>
                                     </li>
                                 </ul>

@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Home from "./home";
+import Home from "./components/home";
 
-import Criar from "./professor/criar";
-import Listar from "./professor/listar";
-import Editar from "./professor/editar";
+import Criar from "./components/professor/criar";
+import Listar from "./components/professor/listar";
+import Editar from "./components/professor/editar";
 
 const router = createBrowserRouter([
     {

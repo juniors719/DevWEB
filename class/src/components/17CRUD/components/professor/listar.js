@@ -1,22 +1,37 @@
-import professores from "../data/db_professor";
-import "../css/crud.css";
+//import professores from "../data/db_professor";
+import { useEffect, useState } from "react";
+import "../../css/crud.css";
+import ProfessorService from "../../services/ProfessorService";
 
 const Listar = () => {
+    const [professores, setProfessores] = useState([]);
+
+    useEffect(() => {
+        ProfessorService.getProfessoresFetch((data) => setProfessores(data));
+    }, []);
+
     const renderizarProfessores = () => {
-        return professores.map((professor) => {
+        const vetorResultado = professores.map((professor) => {
             return (
-                <tr key={professor.id}>
+                <tr>
                     <th scope="row">{professor.id}</th>
                     <td>{professor.nome}</td>
                     <td>{professor.curso}</td>
                     <td>{professor.titulacao}</td>
                     <td>
-                        <button className="btn btn-secondary">Editar</button>
-                        <button className="btn btn-danger">Excluir</button>
+                        <div>
+                            <button type="button" className="btn btn-secondary">
+                                Editar
+                            </button>
+                            <button type="button" className="btn btn-danger">
+                                Apagar
+                            </button>
+                        </div>
                     </td>
                 </tr>
             );
         });
+        return vetorResultado;
     };
 
     return (

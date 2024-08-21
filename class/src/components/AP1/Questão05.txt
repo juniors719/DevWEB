@@ -1,0 +1,43 @@
+O problema de PROPS DRILLING ocorre quando você precisa passar 
+dados (props) através de vários componentes intermediários para 
+chegar ao componente final que realmente precisa desses dados. 
+Isso pode levar a um código confuso e difícil de manter, pois 
+cada componente intermediário precisa receber e repassar as props, 
+mesmo que não as utilize diretamente.
+
+O Contexto é uma funcionalidade do React que permite compartilhar 
+dados entre componentes, sem a necessidade de passá-los 
+explicitamente através das props.
+
+// Definindo o contexto do tema
+const ThemeContext = React.createContext('light');
+
+// Componente intermediário
+function IntermediateComponent() {
+  return (
+    <div>
+      <Button />
+    </div>
+  );
+}
+
+// Componente final que precisa do tema
+function Button() {
+  // Acessando o tema diretamente do contexto
+  const theme = React.useContext(ThemeContext);
+
+  return (
+    <button style={{ background: theme }}>
+      Meu botão
+    </button>
+  );
+}
+
+// Componente raiz que envolve os componentes intermediários com o provedor do contexto
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <IntermediateComponent />
+    </ThemeContext.Provider>
+  );
+}

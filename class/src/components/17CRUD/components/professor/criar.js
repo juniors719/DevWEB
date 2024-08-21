@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import professores from "../data/db_professor";
+import professores from "../../data/db_professor";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import "../css/crud.css";
+import "../../css/crud.css";
+import axios from "axios";
 
 const Criar = () => {
     const [nome, setNome] = useState("");
@@ -14,6 +15,26 @@ const Criar = () => {
         ufc: false,
         ifce: false,
     });
+
+    const postProfessorAxiosThenCatch = (professor) => {
+        axios
+            .post("http://localhost:3001/professores", professor)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
+    };
+
+    const postProfessorFetchThenCatch = (professor) => {
+        fetch("http://localhost:3001/professores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(professor),
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.log(error));
+    };
 
     const handleUniversidade = (event) => {
         const reset = { ufc: false, ifce: false };
@@ -42,16 +63,8 @@ const Criar = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const novoId =
-            professores.length > 0
-                ? professores[professores.length - 1].id + 1
-                : 1;
-        professores.push({
-            id: novoId,
-            nome: nome,
-            curso: curso,
-            titulacao: titulacao,
-        });
+        const novoProfessor = { nome, curso, titulacao, ai, universidade };
+        postProfessorAxiosThenCatch(novoProfessor);
     };
 
     const handleSelect = (event) => {

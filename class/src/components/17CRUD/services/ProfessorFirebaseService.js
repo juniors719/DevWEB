@@ -1,5 +1,5 @@
 // Importa os módulos necessários para o Firebase
-import { collection, query, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, getDocs, addDoc, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
 class ProfessorFirebaseService {
     static listar(db, callback) {
@@ -36,6 +36,38 @@ class ProfessorFirebaseService {
             })
             .catch((error) => {
                 console.error("Erro ao criar o professor: ", error);
+            });
+    }
+
+    static getById(db, callback, id) {
+        const docRef = doc(db, "professores", id);
+        getDoc(docRef)
+            .then(
+                (docSnap) => {
+                    callback(docSnap.data());
+                }
+            )
+            .catch(error => console.log(error))
+    }
+
+    static atualizar(db, id, professorAtualizado, callback) {
+        const MyDoc = doc(db, "professores", id);
+        setDoc(MyDoc, professorAtualizado)
+            .then(() => {
+                callback({ id: MyDoc.id });
+            })
+            .catch((error) => {
+                console.error("Erro ao atualizar o professor: ", error);
+            });
+    }
+
+    static deletar(db, id, callback){
+        deleteDoc(doc(db, "professores", id))
+            .then(() => {
+                alert("Professor deletado com sucesso! => Id: " + id);
+            })
+            .catch((error) => {
+                console.error("Erro ao deletar o professor: ", error);
             });
     }
 }

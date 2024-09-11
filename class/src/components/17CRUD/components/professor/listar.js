@@ -24,11 +24,21 @@ const Listar = () => {
         );
     }, []);
 
-    const handleDelete = (_id) => {
-        if (window.confirm(`Deseja excluir id = ${_id}`)) {
-            ProfessorService.deleteProfessor(_id, (response) => {
+    const handleDelete = (id) => {
+        if (window.confirm(`Deseja excluir id = ${id}`)) {
+
+            ProfessorFirebaseService.delete(
+                firebase.getFirestoreDB(),
+                (response) => {
+                    const result = professores.filter((professor) => professor._id !== _id);
+                    setProfessores(result);
+                },
+                id
+            );
+
+            /* ProfessorService.deleteProfessor(_id, (response) => {
                 alert(response);
-            });
+            }); */
         }
     };
 
@@ -36,14 +46,14 @@ const Listar = () => {
         const vetorResultado = professores.map((professor) => {
             return (
                 <tr>
-                    <th scope="row">{professor._id}</th>
+                    <th scope="row">{professor.id}</th>
                     <td>{professor.nome}</td>
                     <td>{professor.curso}</td>
                     <td>{professor.titulacao}</td>
                     <td>
                         <div className="button-content">
                             <Link
-                                to={`/professor/editar/${professor._id}`}
+                                to={`/professor/editar/${professor.id}`}
                                 className="btn btn-primary"
                             >
                                 Editar
@@ -51,7 +61,7 @@ const Listar = () => {
                             <button
                                 type="button"
                                 className="btn btn-danger"
-                                onClick={() => handleDelete(professor._id)}
+                                onClick={() => handleDelete(professor.id)}
                             >
                                 Apagar
                             </button>

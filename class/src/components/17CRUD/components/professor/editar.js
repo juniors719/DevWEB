@@ -1,7 +1,9 @@
 import ProfessorService from "../../services/ProfessorService";
 import "../../css/crud.css";
+import ProfessorFirebaseService from "../../services/ProfessorFirebaseService";
+import FirebaseContext from "../../utils/FirebaseContext";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -18,16 +20,31 @@ const Editar = () => {
 
     const { id } = useParams(); // {id:1}
     const navigate = useNavigate();
+    const firebase = useContext(FirebaseContext);
 
     useEffect(() => {
-        ProfessorService.getProfessorById(id, (professor) => {
+
+        ProfessorFirebaseService.getById(
+            firebase.getFirestoreDB(),
+            (professor) => {
+                const { nome, curso, titulacao, ai, universidade } = professor;
+                setNome(nome);
+                setCurso(curso);
+                setTitulacao(titulacao);
+                setAi(ai);
+                setUniversidade(universidade);
+            },
+            id
+        )
+
+        /* ProfessorService.getProfessorById(id, (professor) => {
             const { nome, curso, titulacao, ai, universidade } = professor;
             setNome(nome);
             setCurso(curso);
             setTitulacao(titulacao);
             setAi(ai);
             setUniversidade(universidade);
-        });
+        }); */
     }, []);
 
     const handleRadio = (event) => {
@@ -60,9 +77,17 @@ const Editar = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const professorEditado = { nome, curso, titulacao, ai, universidade };
-        ProfessorService.updateProfessor(id, professorEditado, (response) => {
+        /* ProfessorService.updateProfessor(id, professorEditado, (response) => {
             navigate("/professor/listar");
-        });
+        }); */
+        ProfessorFirebaseService.atualizar(
+            firebase.getFirestoreDB(),
+            id,
+            professorEditado,
+            (response) => {
+                navigate("/professor/listar");
+            }
+        )
     };
 
     return (

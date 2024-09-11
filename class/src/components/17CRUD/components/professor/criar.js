@@ -1,48 +1,35 @@
-import { useState } from "react";
-
-import professores from "../../data/db_professor";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import ProfessorService from "../../services/ProfessorService";
 import "../../css/crud.css";
-import axios from "axios";
+
+import ProfessorFirebaseService from "../../services/ProfessorFirebaseService";
+import FirebaseContext from "../../utils/FirebaseContext";
+
+import { useState, useContext } from "react";
 
 const Criar = () => {
     const [nome, setNome] = useState("");
     const [curso, setCurso] = useState("");
-    const [titulacao, setTitulacao] = useState("");
-    const [ai, setAi] = useState({ es: false, lc: false, mc: false });
+    const [titulacao, setTitulacao] = useState("MESTRADO");
+    const [ai, setAi] = useState({ es: false, lc: false, mc: false }); //ai = área de interesse
     const [universidade, setUniversidade] = useState({
         ufc: false,
         ifce: false,
     });
 
-    const postProfessorAxiosThenCatch = (professor) => {
-        axios
-            .post("http://localhost:3001/professores", professor)
-            .then((response) => console.log(response))
-            .catch((error) => console.log(error));
-    };
+    const firebase = useContext(FirebaseContext);
 
-    const postProfessorFetchThenCatch = (professor) => {
-        fetch("http://localhost:3001/professores", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(professor),
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((error) => console.log(error));
-    };
-
-    const handleUniversidade = (event) => {
+    const handleRadio = (event) => {
         const reset = { ufc: false, ifce: false };
         setUniversidade({
-            // ufc: event.target.value === "ufc",
-            // ifce: event.target.value === "ifce",
             ...reset,
-            [event.target.value]: true,
+            [event.target.value]: event.target.checked,
+        });
+    };
+
+    const handleCheckbox = (event) => {
+        setAi({
+            ...ai,
+            [event.target.name]: event.target.checked,
         });
     };
 
@@ -54,167 +41,167 @@ const Criar = () => {
         setCurso(event.target.value);
     };
 
-    const handleCheckbox = (event) => {
-        setAi({
-            ...ai,
-            [event.target.name]: event.target.checked,
-        });
+    const handleSelect = (event) => {
+        setTitulacao(event.target.value);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        //alert("Nome: " + nome + "\nCurso: " + curso + " \nTitulacao: " + titulacao)
         const novoProfessor = { nome, curso, titulacao, ai, universidade };
-        postProfessorAxiosThenCatch(novoProfessor);
-    };
-
-    const handleSelect = (event) => {
-        setTitulacao(event.target.value);
+        //postProfessorAxiosThenCatch(novoProfessor)
+        //postProfessorFetchThenCatch(novoProfessor)
+        /* ProfessorService.postProfessorAxiosThenCatch(novoProfessor, (data) => {
+            console.log(data);
+        }); */
+        ProfessorFirebaseService.criar(
+            firebase.getFirestoreDB(),
+            novoProfessor,
+            (professorSimples) => {
+                console.log(professorSimples);
+            }
+        );
     };
 
     return (
         <div className="page-content">
             <h1>Criar Professor</h1>
-            <h4>{JSON.stringify(universidade)}</h4>
-            <div className="form-container">
-                <form className="form-content" onSubmit={handleSubmit}>
-                    <div className="m-3">
-                        <label htmlFor="nome" className="form-label">
-                            Nome
-                        </label>
-                        <input
-                            type="text"
-                            name="nome"
-                            className="form-control"
-                            id="nome"
-                            onChange={handleInputNome}
-                        />
-                    </div>
-                    <div className="m-3">
-                        <label htmlFor="curso" className="form-label">
-                            Curso
-                        </label>
-                        <input
-                            type="text"
-                            name="curso"
-                            className="form-control"
-                            id="curso"
-                            onChange={handleInputCurso}
-                        />
-                    </div>
-                    <div className="m-3">
-                        <label htmlFor="titulacao" className="form-label">
-                            Titulação
-                        </label>
-                        <select
-                            value={titulacao}
-                            className="form-select"
-                            id="selectTitulacao"
-                            onChange={handleSelect}
-                        >
-                            <option value="Doutorado">Doutorado</option>
-                            <option value="Mestrado">Mestrado</option>
-                            <option value="Graduação">Graduação</option>
-                        </select>
-                    </div>
-                    <div className="m-3">
-                        <fieldset>
-                            <legend>Área de Interesse</legend>
-                            <div className="form-check">
-                                <input
-                                    id="idEs"
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    checked={ai.es}
-                                    onChange={handleCheckbox}
-                                    name="es"
-                                />
-                                <label
-                                    htmlFor="idEs"
-                                    className="form-check-label"
-                                >
-                                    Engenharia de Software
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input
-                                    id="idLc"
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    checked={ai.lc}
-                                    onChange={handleCheckbox}
-                                    name="lc"
-                                />
-                                <label
-                                    htmlFor="idLc"
-                                    className="form-check-label"
-                                >
-                                    Lógica para Computação
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input
-                                    id="idMc"
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    checked={ai.mc}
-                                    onChange={handleCheckbox}
-                                    name="mc"
-                                />
-                                <label
-                                    htmlFor="idMc"
-                                    className="form-check-label"
-                                >
-                                    Matemática Computacional
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div className="m-3">
-                        <fieldset>
-                            <legend>Universidade de Origem</legend>
-                            <div className="form-check">
-                                <input
-                                    id="idUFC"
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="universidade"
-                                    checked={universidade.ufc}
-                                    onChange={handleUniversidade}
-                                    value="ufc"
-                                />
-                                <label
-                                    htmlFor="idUFC"
-                                    className="form-check-label"
-                                >
-                                    UFC
-                                </label>
-                            </div>
-                            <div className="form-check">
-                                <input
-                                    id="idIFCE"
-                                    type="radio"
-                                    className="form-check-input"
-                                    name="universidade"
-                                    checked={universidade.ifce}
-                                    onChange={handleUniversidade}
-                                    value="ifce"
-                                />
-                                <label
-                                    htmlFor="idIFCE"
-                                    className="form-check-label"
-                                >
-                                    IFCE
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div className="div-button-submit">
-                        <button className="btn btn-primary" type="submit">
-                            Salvar
-                        </button>
-                    </div>
-                </form>
-            </div>
+            <form className="form-content" onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label" htmlFor="inputNome">
+                        Nome
+                    </label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="nome"
+                        id="inputNome"
+                        onChange={handleInputNome}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label" htmlFor="inputCurso">
+                        Curso
+                    </label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="curso"
+                        id="inputCurso"
+                        onChange={handleInputCurso}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label" htmlFor="selectTitulacao">
+                        Titulação
+                    </label>
+                    <select
+                        className="form-select"
+                        value={titulacao}
+                        id="selectTitulacao"
+                        onChange={handleSelect}
+                    >
+                        <option value="GRADUACAO">GRADUAÇÃO</option>
+                        <option value="MESTRADO">MESTRADO</option>
+                        <option value="DOUTORADO">DOUTORADO</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="form-label">Áreas de Interesse</label>
+                    <fieldset className="scheduler-border">
+                        <div className="form-check">
+                            <input
+                                id="idES"
+                                type="checkbox"
+                                className="form-check-input"
+                                checked={ai.es}
+                                onChange={handleCheckbox}
+                                name="es"
+                            />
+                            <label htmlFor="idES" className="form-check-label">
+                                Engenharia de Software
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <input
+                                id="idLC"
+                                type="checkbox"
+                                className="form-check-input"
+                                checked={ai.lc}
+                                onChange={handleCheckbox}
+                                name="lc"
+                            />
+                            <label htmlFor="idLC" className="form-check-label">
+                                Lógica Computacional
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <input
+                                id="idMC"
+                                type="checkbox"
+                                className="form-check-input"
+                                checked={ai.mc}
+                                onChange={handleCheckbox}
+                                name="mc"
+                            />
+                            <label htmlFor="idMC" className="form-check-label">
+                                Matemática Computacional
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div>
+                    <label className="form-label">Universidade de Origem</label>
+                    <fieldset className="scheduler-border">
+                        <div className="form-check">
+                            <input
+                                id="idUFC"
+                                className="form-check-input"
+                                type="radio"
+                                name="universidade"
+                                checked={universidade.ufc}
+                                value="ufc"
+                                onChange={handleRadio}
+                            />
+                            <label htmlFor="idUFC" className="form-check-label">
+                                Universidade Federal do Ceará
+                            </label>
+                        </div>
+
+                        <div className="form-check">
+                            <input
+                                id="idIFCE"
+                                className="form-check-input"
+                                type="radio"
+                                name="universidade"
+                                checked={universidade.ifce}
+                                value="ifce"
+                                onChange={handleRadio}
+                            />
+                            <label
+                                htmlFor="idIFCE"
+                                className="form-check-label"
+                            >
+                                Instituto Federal do Ceará
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className="div-button-submit">
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        style={{ marginLeft: 0 }}
+                    >
+                        Submeter
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

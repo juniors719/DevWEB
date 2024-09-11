@@ -6,6 +6,9 @@ import Criar from "./components/professor/criar";
 import Listar from "./components/professor/listar";
 import Editar from "./components/professor/editar";
 
+import Firebase from "./utils/Firebase";
+import FirebaseContext from "./utils/FirebaseContext";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -28,6 +31,10 @@ const router = createBrowserRouter([
 ]);
 
 const Main = () => {
-    return <RouterProvider router={router} />;
+    return (
+        <FirebaseContext.Provider value={new Firebase()}>
+            <RouterProvider router={router} />
+        </FirebaseContext.Provider>
+    );
 };
 export default Main;

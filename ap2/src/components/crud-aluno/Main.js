@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Criar from "./components/aluno/Criar";
 import Listar from "./components/aluno/Listar";
 import Editar from "./components/aluno/Editar";
+import ListarPorCurso from "./components/aluno/ListarPorCurso";
 
 import Firebase from "./utils/Firebase";
 import FirebaseContext from "./utils/FirebaseContext";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: "aluno/editar/:id",
                 element: <Editar />,
+            },
+            {
+                path: "aluno/listarPorCurso",
+                element: <ListarPorCurso />,
             },
         ],
     },

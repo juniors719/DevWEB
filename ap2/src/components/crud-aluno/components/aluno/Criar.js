@@ -25,28 +25,35 @@ const Criar = () => {
         );
         navigate("/aluno/listar");
     };
+
     return (
-        <div className="crudaluno-container crudaluno-form">
-            <h1>Criar Aluno</h1>
-            <form className="form-content" onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="inputNome">
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Criar Aluno</h1>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+                <div>
+                    <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="inputNome"
+                    >
                         Nome
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         id="inputNome"
                         value={nome}
                         onChange={(event) => setNome(event.target.value)}
                     />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="inputCurso">
+                <div>
+                    <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="inputCurso"
+                    >
                         Curso
                     </label>
                     <select
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         id="inputCurso"
                         value={curso}
                         onChange={(event) => setCurso(event.target.value)}
@@ -70,13 +77,16 @@ const Criar = () => {
                         <option value="Design Digital">Design Digital</option>
                     </select>
                 </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="inputIra">
+                <div>
+                    <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="inputIra"
+                    >
                         IRA
                     </label>
                     <input
                         type="number"
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         id="inputIra"
                         value={ira}
                         onChange={(event) => setIra(event.target.value)}
@@ -84,7 +94,7 @@ const Criar = () => {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-primary w-100 crudaluno-form-button"
+                    className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
                 >
                     Criar
                 </button>

@@ -1,3 +1,10 @@
+// Nomes: Maria Eduarda Lima Mota e Francisco Djalma Pereira da Silva Junior
+// Matrículas: 556276 e 554222
+// Curso: Ciência da Computação
+
+
+
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./components/Home";

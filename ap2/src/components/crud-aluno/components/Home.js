@@ -87,53 +87,6 @@ const Home = () => {
                             </li>
                         </ul>
                     </div>
-                    {/* Menu para dispositivos móveis */}
-                    <div
-                        className="lg:hidden absolute top-16 right-0 w-48 bg-gray-100 shadow-lg rounded-md hidden"
-                        id="mobile-menu"
-                    >
-                        <ul>
-                            <li>
-                                <Link
-                                    className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                                    to="/"
-                                >
-                                    Home
-                                </Link>
-                            </li>
-                            <li className="relative">
-                                <span className="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer">
-                                    Funções
-                                </span>
-                                <ul className="absolute hidden bg-white shadow-lg mt-2 rounded-md w-full">
-                                    <li>
-                                        <Link
-                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                                            to="aluno/criar"
-                                        >
-                                            Criar Aluno
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                                            to="aluno/listar"
-                                        >
-                                            Listar Alunos
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                                            to="aluno/listarPorCurso"
-                                        >
-                                            Listar por Curso
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </nav>
             {/* Fim da barra de navegação */}

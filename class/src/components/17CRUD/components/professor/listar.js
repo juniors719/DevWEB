@@ -26,11 +26,12 @@ const Listar = () => {
 
     const handleDelete = (id) => {
         if (window.confirm(`Deseja excluir id = ${id}`)) {
-
             ProfessorFirebaseService.delete(
                 firebase.getFirestoreDB(),
                 (response) => {
-                    const result = professores.filter((professor) => professor._id !== _id);
+                    const result = professores.filter(
+                        (professor) => professor._id !== _id
+                    );
                     setProfessores(result);
                 },
                 id
@@ -54,13 +55,13 @@ const Listar = () => {
                         <div className="button-content">
                             <Link
                                 to={`/professor/editar/${professor.id}`}
-                                className="btn btn-primary"
+                                className="btn btn-primary crudaluno-form-edit-button"
                             >
                                 Editar
                             </Link>
                             <button
                                 type="button"
-                                className="btn btn-danger"
+                                className="btn btn-dangercrudaluno-form-edit-button"
                                 onClick={() => handleDelete(professor.id)}
                             >
                                 Apagar

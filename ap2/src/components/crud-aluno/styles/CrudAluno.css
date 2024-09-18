@@ -1,0 +1,35 @@
+.crudaluno-container {
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    padding: 30px;
+}
+
+.crudaluno-form-button{
+    background-color: darkslategray;
+    color: white;
+    border: none;
+}
+
+.crudaluno-form-button:hover{
+    background-color: darkcyan;
+}
+
+.crudaluno-form-edit-button{
+    margin-left: 10px;
+}
+
+#ira-column {
+    width: 100px;
+}
+
+#actions-column {
+    width: 300px;
+}
+
+#nome-column {
+    width: 700px;
+}

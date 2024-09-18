@@ -1,74 +1,71 @@
-// Importa os módulos necessários para o Firebase
-import { collection, query, getDocs, addDoc, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import {
+    collection,
+    query,
+    getDocs,
+    addDoc,
+    doc,
+    getDoc,
+    setDoc,
+    deleteDoc,
+} from "firebase/firestore";
 
 class ProfessorFirebaseService {
     static listar(db, callback) {
-        // Cria uma referência para a coleção "professores"
         const c = collection(db, "professores");
-
-        // Cria uma query para buscar todos os documentos da coleção "professores"
-        const q = query(c);
-
-        // Busca todos os documentos da coleção "professores"
-        getDocs(q)
+        //const q = query(c)
+        getDocs(c)
             .then((querySnapshot) => {
                 const professores = [];
+                //laço
                 querySnapshot.forEach((professor) => {
-                    //console.log(professor.id);
-                    //console.log(professor.data());
+                    //console.log(professor.id)
+                    //console.log(professor.data())
                     professores.push({
-                        _id: professor.id,
+                        id: professor.id,
                         ...professor.data(),
-                    });
-                });
+                    }); //professores
+                }); // fim do laço
                 callback(professores);
             })
-            .catch((error) => {
-                console.error("Erro ao buscar os professores: ", error);
-            });
+            .catch((error) => console.log(error));
     }
 
-    static criar(db, professor, callback) {
+    static criar(db, callback, professor) {
         const c = collection(db, "professores");
         addDoc(c, professor)
-            .then((docRef) => {
-                callback({ id: docRef.id });
+            .then((professor) => {
+                callback({ id: professor.id });
             })
-            .catch((error) => {
-                console.error("Erro ao criar o professor: ", error);
-            });
+            .catch((error) => console.log(error));
     }
 
     static getById(db, callback, id) {
         const docRef = doc(db, "professores", id);
         getDoc(docRef)
-            .then(
-                (docSnap) => {
-                    callback(docSnap.data());
-                }
-            )
-            .catch(error => console.log(error))
+            .then((docSnap) => {
+                //console.log(docSnap.data())
+                //const professor = docSnap.data()
+                callback(docSnap.data());
+            })
+            .catch((error) => console.log(error));
     }
 
-    static atualizar(db, id, professorAtualizado, callback) {
-        const MyDoc = doc(db, "professores", id);
-        setDoc(MyDoc, professorAtualizado)
+    static atualizar(db, callback, id, professorAtualizado) {
+        const docRef = doc(db, "professores", id);
+        setDoc(docRef, professorAtualizado)
             .then(() => {
-                callback({ id: MyDoc.id });
+                callback({ id });
             })
-            .catch((error) => {
-                console.error("Erro ao atualizar o professor: ", error);
-            });
+            .catch((error) => console.log(error));
     }
 
-    static deletar(db, id, callback){
-        deleteDoc(doc(db, "professores", id))
+    static apagar(db, callback, id) {
+        const docRef = doc(db, "professores", id);
+        deleteDoc(docRef)
             .then(() => {
-                alert("Professor deletado com sucesso! => Id: " + id);
+                callback({ id });
             })
-            .catch((error) => {
-                console.error("Erro ao deletar o professor: ", error);
-            });
+            .catch((error) => console.log(error));
     }
 }
 

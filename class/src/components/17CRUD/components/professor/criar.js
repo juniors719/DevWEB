@@ -66,7 +66,10 @@ const Criar = () => {
     return (
         <div className="page-content">
             <h1>Criar Professor</h1>
-            <form className="form-content" onSubmit={handleSubmit}>
+            <form
+                className="form-content crudaluno-form"
+                onSubmit={handleSubmit}
+            >
                 <div className="mb-3">
                     <label className="form-label" htmlFor="inputNome">
                         Nome
